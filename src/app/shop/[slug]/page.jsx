@@ -4,6 +4,7 @@ import { Shield, Star, Truck } from "lucide-react";
 import { products } from "@/data/products";
 import { formatCurrency } from "@/lib/utils";
 import { ProductActions } from "@/components/product/product-actions";
+import { ProductTabs } from "@/components/product/product-tabs";
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.slug }));
@@ -35,6 +36,7 @@ export default async function ProductPage({ params }) {
   }
 
   return (
+    <>
     <div className="grid gap-8 lg:grid-cols-2">
       <div className="relative h-[460px] overflow-hidden rounded-3xl border border-slate-200 bg-white">
         <Image 
@@ -70,5 +72,7 @@ export default async function ProductPage({ params }) {
         <ProductActions productId={product.id} />
       </div>
     </div>
+    <ProductTabs product={product} />
+  </>
   );
 }
