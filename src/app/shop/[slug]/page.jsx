@@ -4,7 +4,7 @@ import { Shield, Star, Truck } from "lucide-react";
 import { products } from "@/data/products";
 import { formatCurrency } from "@/lib/utils";
 import { ProductActions } from "@/components/product/product-actions";
-import { ProductTabs } from "@/components/product/product-tabs";
+import { ProductDetails } from "@/components/product/product-details";
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.slug }));
@@ -72,7 +72,7 @@ export default async function ProductPage({ params }) {
         <ProductActions productId={product.id} />
       </div>
     </div>
-    <ProductTabs product={product} />
-  </>
+      <ProductDetails product={product} />
+    </>
   );
 }
