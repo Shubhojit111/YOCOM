@@ -2,11 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useStore } from "@/context/store-context";
+import { Heart } from "lucide-react";
 
 export function ProductActions({ productId }) {
-  const { addToCart, toggleWishlist, wishlist } = useStore();
+  const { addToCart, removeFromCart, cartItems, toggleWishlist, wishlist } = useStore();
   const router = useRouter();
   const saved = wishlist.includes(productId);
+  const isInCart = cartItems.some((item) => item.productId === productId);
 
   const handleBuyNow = () => {
     addToCart(productId);
@@ -17,16 +19,25 @@ export function ProductActions({ productId }) {
     <div className="flex flex-wrap gap-3">
       <button
         type="button"
-        onClick={() => addToCart(productId)}
-        className="rounded-full bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-700"
+        onClick={() => isInCart ? removeFromCart(productId) : addToCart(productId)}
+        className={`rounded-full px-6 py-3 font-semibold transition-colors ${
+          isInCart 
+            ? "bg-slate-200 text-slate-800 hover:bg-slate-300" 
+            : "bg-slate-900 text-white hover:bg-slate-700"
+        }`}
       >
-        Add to Cart
+        {isInCart ? "Remove Item" : "Add to Cart"}
       </button>
       <button
         type="button"
         onClick={() => toggleWishlist(productId)}
-        className="rounded-full border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-900 hover:border-slate-500"
+        className={`flex items-center gap-2 rounded-full border px-6 py-3 font-semibold transition-colors ${
+          saved 
+            ? "border-red-500 bg-red-50 text-red-600 hover:bg-red-100" 
+            : "border-slate-300 bg-white text-slate-900 hover:border-slate-500"
+        }`}
       >
+        <Heart size={18} fill={saved ? "currentColor" : "none"} />
         {saved ? "Remove Wishlist" : "Add Wishlist"}
       </button>
       <button

@@ -7,8 +7,9 @@ import { formatCurrency } from "@/lib/utils";
 import { useStore } from "@/context/store-context";
 
 export function ProductCard({ product }) {
-  const { addToCart, toggleWishlist, wishlist } = useStore();
+  const { addToCart, removeFromCart, cartItems, toggleWishlist, wishlist } = useStore();
   const isWishlisted = wishlist.includes(product.id);
+  const isInCart = cartItems.some((item) => item.productId === product.id);
 
   return (
     <article className="group overflow-hidden flex flex-col h-full rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
@@ -32,11 +33,11 @@ export function ProductCard({ product }) {
           <button
             type="button"
             onClick={() => toggleWishlist(product.id)}
-            className={`shrink-0 rounded-full border p-2 hover:border-blue-500 hover:text-blue-600 ${
-              isWishlisted ? "border-blue-500 text-blue-600" : "border-slate-200 text-slate-600"
+            className={`shrink-0 rounded-full border p-2 hover:border-red-500 hover:text-red-500 transition-colors ${
+              isWishlisted ? "border-red-500 text-red-500" : "border-slate-200 text-slate-600"
             }`}
           >
-            <Heart size={16} />
+            <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
           </button>
         </div>
         <div className="mt-3 flex items-center gap-1 text-amber-500">
@@ -52,10 +53,14 @@ export function ProductCard({ product }) {
         <div className="mt-auto pt-4">
           <button
             type="button"
-            onClick={() => addToCart(product.id)}
-            className="w-full rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+            onClick={() => isInCart ? removeFromCart(product.id) : addToCart(product.id)}
+            className={`w-full rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${
+              isInCart 
+                ? "bg-slate-200 text-slate-800 hover:bg-slate-300" 
+                : "bg-slate-900 text-white hover:bg-slate-700"
+            }`}
           >
-            Add to Cart
+            {isInCart ? "Remove Item" : "Add to Cart"}
           </button>
         </div>
       </div>

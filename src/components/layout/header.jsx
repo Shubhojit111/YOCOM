@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Heart, Menu, Search, ShoppingCart, User } from "lucide-react";
 import { navLinks, promoTexts } from "@/data/site";
 import { useStore } from "@/context/store-context";
@@ -10,6 +10,7 @@ import { useStore } from "@/context/store-context";
 export function Header() {
   const { cartCount, wishlistCount, isLoggedIn } = useStore();
   const router = useRouter();
+  const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e) => {
@@ -75,11 +76,18 @@ export function Header() {
         </div>
       </div>
       <nav className="mx-auto hidden w-full max-w-7xl items-center gap-6 px-5 pb-3 text-sm font-semibold text-slate-700 md:flex lg:px-8">
-        {navLinks.map((item) => (
-          <Link key={item.href} href={item.href} className="hover:text-blue-600">
-            {item.label}
-          </Link>
-        ))}
+        {navLinks.map((item) => {
+          const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+          return (
+            <Link 
+              key={item.href} 
+              href={item.href} 
+              className={`transition-colors ${isActive ? "text-blue-600" : "hover:text-blue-600"}`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
     </header>
   );
