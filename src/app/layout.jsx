@@ -21,8 +21,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable} h-full antialiased`}>
-      <body className="min-h-full bg-slate-50 font-sans text-slate-900">
+    <html lang="en" className={`${inter.variable} ${poppins.variable} h-full antialiased`} suppressHydrationWarning>
+      <body className="min-h-full bg-slate-50 font-sans text-slate-900" suppressHydrationWarning>
         <div className="flex min-h-screen flex-col">
           <AppProvider>
             <SiteShell>{children}</SiteShell>
