@@ -9,7 +9,7 @@ body {
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
-a,
+a, 
 button,
 [role="button"] {
   transition: all 0.2s ease;
